@@ -1,988 +1,825 @@
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#080b18">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10131c">
 <title>HUMANITY ONE</title>
+
 <style>
 :root {
-  --bg:#080b18;
-  --panel:#11182b;
-  --panel2:#18213a;
-  --text:#f5f7ff;
-  --muted:#9aa6c4;
-  --accent:#8b5cf6;
-  --cyan:#22d3ee;
-  --pink:#ec4899;
-  --border:rgba(255,255,255,.1);
-  --radius:18px;
+  --bg:#0d1018;
+  --panel:#171c28;
+  --panel2:#202738;
+  --line:#2c3548;
+  --text:#f4f6fb;
+  --muted:#9ba7bb;
+  --accent:#8b7cff;
+  --accent2:#35d6bd;
 }
 * { box-sizing:border-box; }
-html { scroll-behavior:smooth; }
 body {
   margin:0;
-  min-height:100vh;
+  background:var(--bg);
   color:var(--text);
-  background:
-    radial-gradient(circle at 10% 0%,#30205c 0,transparent 35%),
-    radial-gradient(circle at 90% 20%,#123c59 0,transparent 30%),
-    var(--bg);
-  font-family:Arial,Helvetica,sans-serif;
+  font:15px/1.5 Arial,sans-serif;
 }
 button,input,textarea,select { font:inherit; }
-button { cursor:pointer; }
-button:focus-visible,input:focus-visible,textarea:focus-visible {
-  outline:2px solid var(--cyan);
-  outline-offset:3px;
-}
+button { cursor:pointer; color:inherit; }
 header {
   position:sticky;
   top:0;
   z-index:10;
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  gap:12px;
-  padding:14px 5%;
-  background:rgba(8,11,24,.9);
-  border-bottom:1px solid var(--border);
-  backdrop-filter:blur(18px);
+  align-items:center;
+  padding:15px;
+  background:#10131cf2;
+  border-bottom:1px solid var(--line);
 }
+.brand { font-weight:900; letter-spacing:2px; }
 .logo {
-  font-size:22px;
-  font-weight:900;
-  letter-spacing:2px;
-  background:linear-gradient(90deg,var(--cyan),#c084fc);
+  display:inline-grid;
+  place-items:center;
+  width:34px;
+  height:34px;
+  margin-right:8px;
+  border-radius:10px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#111;
+}
+main { max-width:1100px; margin:auto; padding:20px 15px 100px; }
+.hero {
+  padding:30px;
+  margin-bottom:20px;
+  border:1px solid #514b80;
+  border-radius:22px;
+  background:linear-gradient(120deg,#252044,#172b36);
+}
+.hero h1 { font-size:clamp(30px,6vw,48px); line-height:1.1; }
+.gradient {
+  background:linear-gradient(90deg,#b8aaff,#66ead7);
   color:transparent;
   background-clip:text;
 }
-nav {
+button.primary {
+  background:linear-gradient(100deg,var(--accent),#5eaddd);
+  border:0;
+  border-radius:12px;
+  padding:11px 16px;
+  font-weight:bold;
+}
+button.secondary,.smallbtn {
+  background:var(--panel2);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:9px 12px;
+}
+.tabs {
   display:flex;
   gap:8px;
-  flex-wrap:wrap;
+  overflow:auto;
+  padding:5px 0 18px;
 }
-.nav-button,.secondary {
-  border:1px solid var(--border);
-  color:var(--text);
-  background:var(--panel);
-  border-radius:12px;
-  padding:10px 13px;
-}
-.nav-button.active {
-  background:var(--accent);
-  border-color:var(--accent);
-}
-main {
-  width:min(1100px,92%);
-  margin:30px auto 90px;
-}
-.hero {
-  padding:55px 25px;
-  text-align:center;
-  border:1px solid var(--border);
-  border-radius:28px;
-  background:linear-gradient(135deg,rgba(139,92,246,.22),rgba(34,211,238,.08));
-}
-.hero h1 {
-  font-size:clamp(36px,8vw,72px);
-  line-height:1;
-  margin:0 0 18px;
-}
-.gradient {
-  background:linear-gradient(90deg,var(--cyan),#c084fc,var(--pink));
-  color:transparent;
-  background-clip:text;
-}
-.hero p {
+.tab {
+  white-space:nowrap;
+  padding:9px 14px;
+  border:1px solid var(--line);
+  border-radius:30px;
+  background:transparent;
   color:var(--muted);
-  max-width:650px;
-  margin:0 auto 25px;
-  line-height:1.7;
 }
-.primary {
-  border:0;
-  border-radius:13px;
-  padding:13px 19px;
-  color:white;
-  font-weight:700;
-  background:linear-gradient(100deg,var(--accent),#5268e8);
-}
-.primary:hover { filter:brightness(1.15); }
-.section { margin-top:35px; }
-.section-heading {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-bottom:17px;
-}
-.section-heading h2 { margin:0; }
-.toolbar {
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin:18px 0;
-}
-input,textarea,select {
-  min-width:0;
-  color:var(--text);
+.tab.active { background:#302b55; color:white; }
+.view { display:none; }
+.view.active { display:block; }
+h2 { font-size:22px; }
+.panel,.card {
   background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:11px;
-  padding:12px;
+  border:1px solid var(--line);
+  border-radius:17px;
+  padding:15px;
+  margin-bottom:14px;
 }
-input::placeholder,textarea::placeholder { color:var(--muted); }
-.search { flex:1; min-width:190px; }
 .grid {
   display:grid;
   grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
-  gap:17px;
+  gap:14px;
 }
-.card {
-  overflow:hidden;
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-}
+.card { padding:0; overflow:hidden; }
 .art {
-  min-height:175px;
+  height:145px;
   display:grid;
   place-items:center;
-  font-size:62px;
-  background:linear-gradient(135deg,#39236b,#15516b);
+  font-size:45px;
+  background:linear-gradient(135deg,#39336d,#236b70);
 }
-.card-content { padding:15px; }
-.card h3 { margin:0 0 8px; }
-.card p {
-  color:var(--muted);
-  line-height:1.5;
-  overflow-wrap:anywhere;
-}
-.card-actions {
+.art img { width:100%; height:100%; object-fit:cover; }
+.cardbody { padding:14px; }
+.cardbody h3 { margin:0 0 8px; }
+.cardbody p { color:var(--muted); min-height:40px; }
+.meta {
   display:flex;
-  gap:7px;
-  flex-wrap:wrap;
-  margin-top:13px;
+  justify-content:space-between;
+  color:var(--muted);
+  font-size:12px;
 }
-.small-button {
-  color:var(--text);
-  background:var(--panel2);
-  border:1px solid var(--border);
-  border-radius:9px;
-  padding:8px 10px;
+.actions { display:flex; gap:7px; flex-wrap:wrap; margin-top:12px; }
+.smallbtn { font-size:12px; }
+.liked { color:#ff8da0; }
+.field { margin-bottom:13px; }
+.field label {
+  display:block;
+  color:var(--muted);
+  margin-bottom:6px;
 }
-.small-button:hover { border-color:var(--cyan); }
+input,textarea,select {
+  width:100%;
+  padding:11px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#0f1420;
+  color:white;
+}
+textarea { min-height:110px; }
+.row { display:flex; gap:12px; }
+.row>* { flex:1; min-width:0; }
+.folder {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:13px;
+  margin-bottom:9px;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:13px;
+}
+.grow { flex:1; }
+.muted { color:var(--muted); }
 .empty {
+  padding:25px;
   text-align:center;
   color:var(--muted);
-  padding:35px 15px;
-  border:1px dashed var(--border);
-  border-radius:15px;
+  border:1px dashed var(--line);
+  border-radius:14px;
 }
-.panel {
-  padding:20px;
-  border:1px solid var(--border);
-  background:var(--panel);
-  border-radius:var(--radius);
-}
-.form-grid {
+.avatar {
+  width:60px;
+  height:60px;
+  border-radius:18px;
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-.form-grid .wide { grid-column:1/-1; }
-label {
-  display:grid;
-  gap:7px;
-  color:var(--muted);
-  font-size:14px;
-}
-textarea { min-height:100px; resize:vertical; }
-.modal {
-  position:fixed;
-  inset:0;
-  z-index:30;
-  display:none;
   place-items:center;
-  padding:18px;
-  background:rgba(0,0,0,.75);
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#111;
+  font-size:25px;
+  font-weight:bold;
 }
-.modal.open { display:grid; }
-.modal-box {
-  width:min(540px,100%);
+.stats { display:flex; gap:25px; margin-top:18px; }
+.stats b { display:block; font-size:21px; }
+.stats span { color:var(--muted); font-size:12px; }
+.notice {
+  padding:12px;
+  border:1px solid #2d6570;
+  border-radius:12px;
+  background:#1e3540;
+  color:#b9f5eb;
+  font-size:13px;
+  margin-top:15px;
+}
+dialog {
+  width:min(550px,95%);
   max-height:90vh;
   overflow:auto;
   background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:22px;
-}
-.modal-top {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.close {
-  border:0;
   color:white;
-  background:transparent;
-  font-size:25px;
+  border:1px solid var(--line);
+  border-radius:18px;
 }
-.notice {
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.5;
-}
-footer {
-  text-align:center;
-  color:var(--muted);
-  padding:25px;
-  border-top:1px solid var(--border);
-}
-[hidden] { display:none!important; }
+dialog::backdrop { background:#000b; }
+footer { text-align:center; color:var(--muted); padding:25px; }
 @media(max-width:600px) {
-  header { align-items:flex-start; flex-direction:column; }
-  nav { width:100%; }
-  .nav-button { flex:1; }
-  .hero { padding:40px 17px; }
-  .form-grid { grid-template-columns:1fr; }
-  .form-grid .wide { grid-column:auto; }
+  .row { flex-direction:column; gap:0; }
+  .hero { padding:22px; }
+  .folder { flex-wrap:wrap; }
 }
 </style>
 </head>
+
 <body>
 <header>
-  <div class="logo">HUMANITY ONE</div>
-  <nav aria-label="Navigation principale">
-    <button class="nav-button active" data-page="home">Accueil</button>
-    <button class="nav-button" data-page="explore">Explorer</button>
-    <button class="nav-button" data-page="create">Créer</button>
-    <button class="nav-button" data-page="challenges">Défis</button>
-    <button class="nav-button" data-page="profile">Profil</button>
-  </nav>
+  <div class="brand"><span class="logo">H</span>HUMANITY <span class="gradient">ONE</span></div>
+  <div>
+    <button class="smallbtn" id="exportBtn">⇩</button>
+    <button class="smallbtn" id="importBtn">⇧</button>
+    <input type="file" id="importFile" accept="application/json" hidden>
+  </div>
 </header>
 
 <main>
-  <section id="home" class="page">
-    <div class="hero">
-      <h1>ONE WORLD.<br><span class="gradient">INFINITE IDEAS.</span></h1>
-      <p>
-        Imagine, crée et partage. Une plateforme créative
-        où chaque idée peut inspirer des milliers de personnes.
-      </p>
-      <button class="primary" data-go="create">Commencer à créer</button>
+<section class="hero">
+  <h1>Create. <span class="gradient">Share.</span><br>Evolve together.</h1>
+  <p>Un espace mondial pour créer, découvrir et faire évoluer les idées.</p>
+  <button class="primary" data-go="studio">＋ Créer une création</button>
+</section>
+
+<nav class="tabs">
+  <button class="tab active" data-view="home">Accueil</button>
+  <button class="tab" data-view="explore">Explorer</button>
+  <button class="tab" data-view="studio">Studio</button>
+  <button class="tab" data-view="library">Collections</button>
+  <button class="tab" data-view="community">Communauté</button>
+  <button class="tab" data-view="profile">Profil</button>
+</nav>
+
+<section class="view active" id="home">
+  <h2>À découvrir</h2>
+  <div class="grid" id="feed"></div>
+</section>
+
+<section class="view" id="explore">
+  <h2>Explorer</h2>
+  <div class="panel">
+    <div class="field">
+      <label>Rechercher</label>
+      <input id="searchInput" placeholder="Un titre, une idée, un créateur...">
     </div>
-    <section class="section">
-      <div class="section-heading">
-        <h2>À découvrir</h2>
-        <button class="secondary" data-go="explore">Tout explorer</button>
+    <div class="row">
+      <div class="field">
+        <label>Catégorie</label>
+        <select id="categoryFilter">
+          <option value="">Toutes</option>
+          <option>Art</option>
+          <option>Photo</option>
+          <option>Texte</option>
+          <option>Musique</option>
+          <option>Design</option>
+          <option>Vidéo</option>
+          <option>Autre</option>
+        </select>
       </div>
-      <div id="home-creations" class="grid"></div>
-    </section>
-  </section>
-
-  <section id="explore" class="page" hidden>
-    <div class="section-heading">
-      <h2>Explorer les créations</h2>
-    </div>
-    <div class="toolbar">
-      <input id="search" class="search" type="search"
-        placeholder="Rechercher une création..." aria-label="Rechercher">
-      <select id="category-filter" aria-label="Filtrer par catégorie">
-        <option value="all">Toutes les catégories</option>
-        <option value="art">Art</option>
-        <option value="tech">Technologie</option>
-        <option value="nature">Nature</option>
-        <option value="future">Futur</option>
-        <option value="other">Autre</option>
-      </select>
-      <select id="sort-filter" aria-label="Trier les créations">
-        <option value="recent">Plus récentes</option>
-        <option value="popular">Plus aimées</option>
-        <option value="title">Ordre alphabétique</option>
-      </select>
-    </div>
-    <div id="explore-creations" class="grid"></div>
-  </section>
-
-  <section id="create" class="page" hidden>
-    <div class="section-heading">
-      <h2 id="editor-title">Créer une œuvre</h2>
-    </div>
-    <div class="panel">
-      <form id="creation-form">
-        <input type="hidden" id="edit-id">
-        <div class="form-grid">
-          <label>
-            Titre
-            <input id="creation-title" maxlength="70" required
-              placeholder="Le titre de ton idée">
-          </label>
-          <label>
-            Ton nom
-            <input id="creation-author" maxlength="35" required
-              placeholder="Ton pseudo">
-          </label>
-          <label>
-            Catégorie
-            <select id="creation-category">
-              <option value="art">Art</option>
-              <option value="tech">Technologie</option>
-              <option value="nature">Nature</option>
-              <option value="future">Futur</option>
-              <option value="other">Autre</option>
-            </select>
-          </label>
-          <label>
-            Symbole
-            <select id="creation-emoji">
-              <option>🌌</option>
-              <option>🚀</option>
-              <option>🎨</option>
-              <option>🌍</option>
-              <option>🤖</option>
-              <option>🌱</option>
-              <option>💡</option>
-              <option>✨</option>
-              <option>🔥</option>
-              <option>🪐</option>
-            </select>
-          </label>
-          <label class="wide">
-            Description
-            <textarea id="creation-description" maxlength="500"
-              required placeholder="Raconte ton idée..."></textarea>
-          </label>
-        </div>
-        <div class="toolbar">
-          <button class="primary" type="submit">Enregistrer la création</button>
-          <button class="secondary" type="button" id="cancel-edit">Annuler</button>
-        </div>
-      </form>
-      <p class="notice">
-        Les créations sont sauvegardées dans le navigateur de cet appareil.
-      </p>
-    </div>
-  </section>
-
-  <section id="challenges" class="page" hidden>
-    <div class="section-heading"><h2>Défis créatifs</h2></div>
-    <div class="grid">
-      <article class="card">
-        <div class="art">🌍</div>
-        <div class="card-content">
-          <h3>Un monde meilleur</h3>
-          <p>Imagine une invention qui rendrait la planète plus belle.</p>
-          <button class="primary challenge-button" data-challenge="Un monde meilleur">
-            Relever le défi
-          </button>
-        </div>
-      </article>
-      <article class="card">
-        <div class="art">🚀</div>
-        <div class="card-content">
-          <h3>En 2126</h3>
-          <p>Montre à quoi pourrait ressembler la vie dans cent ans.</p>
-          <button class="primary challenge-button" data-challenge="En 2126">
-            Relever le défi
-          </button>
-        </div>
-      </article>
-      <article class="card">
-        <div class="art">💡</div>
-        <div class="card-content">
-          <h3>L'idée impossible</h3>
-          <p>Crée quelque chose qui semble irréalisable aujourd'hui.</p>
-          <button class="primary challenge-button" data-challenge="L'idée impossible">
-            Relever le défi
-          </button>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <section id="profile" class="page" hidden>
-    <div class="section-heading"><h2>Mon profil</h2></div>
-    <div class="panel">
-      <label>
-        Pseudo public
-        <input id="profile-name" maxlength="35" placeholder="Ton pseudo">
-      </label>
-      <div class="toolbar">
-        <button id="save-profile" class="primary">Enregistrer le profil</button>
+      <div class="field">
+        <label>Classement</label>
+        <select id="sortFilter">
+          <option value="recent">Plus récent</option>
+          <option value="popular">Plus populaire</option>
+          <option value="title">Ordre alphabétique</option>
+        </select>
       </div>
-      <p id="profile-stats" class="notice"></p>
-      <div class="toolbar">
-        <button id="export-data" class="secondary">Exporter mes données</button>
-        <label class="secondary">
-          Importer une sauvegarde
-          <input id="import-data" type="file" accept="application/json">
-        </label>
-      </div>
-      <button id="reset-data" class="small-button">Effacer mes données locales</button>
     </div>
-  </section>
+  </div>
+  <div class="grid" id="exploreGrid"></div>
+</section>
+
+<section class="view" id="studio">
+  <h2>Studio de création</h2>
+  <div class="panel">
+    <form id="createForm">
+      <div class="field">
+        <label>Titre</label>
+        <input id="titleInput" required maxlength="90">
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>Catégorie</label>
+          <select id="categoryInput">
+            <option>Art</option>
+            <option>Photo</option>
+            <option>Texte</option>
+            <option>Musique</option>
+            <option>Design</option>
+            <option>Vidéo</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Collection</label>
+          <select id="folderInput"></select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Description</label>
+        <textarea id="bodyInput" required maxlength="5000"></textarea>
+      </div>
+      <div class="field">
+        <label>Importer une image</label>
+        <input type="file" id="imageInput" accept="image/*">
+      </div>
+      <div class="field">
+        <label>Tags séparés par des virgules</label>
+        <input id="tagsInput">
+      </div>
+      <button class="primary" type="submit">Publier</button>
+    </form>
+  </div>
+  <div class="notice">Prototype local : les données sont enregistrées sur cet appareil. Le partage entre utilisateurs nécessitera un serveur.</div>
+</section>
+
+<section class="view" id="library">
+  <h2>Mes collections</h2>
+  <button class="primary" id="newFolderBtn">＋ Nouvelle collection</button>
+  <div id="folders"></div>
+  <h2 id="folderItemsTitle">Mes créations</h2>
+  <div class="grid" id="libraryGrid"></div>
+</section>
+
+<section class="view" id="community">
+  <h2>Communauté</h2>
+  <div class="panel">
+    <p class="muted">Découvre les créateurs et abonne-toi à leurs profils.</p>
+    <div id="people"></div>
+  </div>
+  <h2>Notifications</h2>
+  <div id="notifications"></div>
+</section>
+
+<section class="view" id="profile">
+  <div class="panel">
+    <div class="row">
+      <div class="avatar" id="avatar">P</div>
+      <div>
+        <h2 id="profileName">Mon profil</h2>
+        <p id="profileBio" class="muted"></p>
+        <button class="smallbtn" id="editProfileBtn">Modifier mon profil</button>
+      </div>
+    </div>
+    <div class="stats">
+      <div><b id="statPosts">0</b><span>Créations</span></div>
+      <div><b id="statLikes">0</b><span>J’aime reçus</span></div>
+      <div><b id="statFollowing">0</b><span>Abonnements</span></div>
+    </div>
+  </div>
+  <h2>Mes publications</h2>
+  <div class="grid" id="profileGrid"></div>
+</section>
+
+<footer>HUMANITY ONE · Create. Share. Evolve.</footer>
 </main>
 
-<div id="modal" class="modal" role="dialog" aria-modal="true"
-  aria-labelledby="modal-title">
-  <div class="modal-box">
-    <div class="modal-top">
-      <h2 id="modal-title">Remixer cette création</h2>
-      <button id="close-modal" class="close" aria-label="Fermer">×</button>
-    </div>
-    <p id="modal-description"></p>
-    <button id="confirm-remix" class="primary">Créer mon remix</button>
-  </div>
-</div>
+<dialog id="detailDialog">
+  <h2 id="detailTitle"></h2>
+  <div id="detailContent"></div>
+  <button class="secondary" data-close="detailDialog">Fermer</button>
+</dialog>
 
-<footer>
-  HUMANITY ONE · Create together · Imagine without limits
-</footer>
+<dialog id="genericDialog">
+  <h2 id="genericTitle"></h2>
+  <div id="genericContent"></div>
+  <button class="secondary" data-close="genericDialog">Fermer</button>
+</dialog>
 
 <script>
-"use strict";
+const KEY = "humanity-one-v1";
+const uid = () => Math.random().toString(36).slice(2,10);
 
-/* -------------------------------------------------------
-   1. DONNÉES ET CONFIGURATION
-------------------------------------------------------- */
+const initialData = {
+  profile:{name:"Poto",bio:"Créateur sur HUMANITY ONE"},
+  folders:[
+    {id:"ideas",name:"Idées"},
+    {id:"inspiration",name:"Inspirations"}
+  ],
+  posts:[
+    {
+      id:"demo1",
+      title:"Une planète à réinventer",
+      body:"Et si les prochaines grandes idées naissaient du partage ?",
+      category:"Art",
+      tags:["futur","collectif"],
+      author:"HUMANITY ONE",
+      folder:"inspiration",
+      likes:18,
+      liked:false,
+      comments:[],
+      created:Date.now(),
+      image:"",
+      parent:null
+    },
+    {
+      id:"demo2",
+      title:"La ville de demain",
+      body:"Imaginer une ville plus calme et plus verte.",
+      category:"Design",
+      tags:["design","écologie"],
+      author:"Alex",
+      folder:"ideas",
+      likes:12,
+      liked:false,
+      comments:[],
+      created:Date.now()-100000,
+      image:"",
+      parent:null
+    }
+  ],
+  people:[
+    {name:"Maya",bio:"Photographie et art",following:false},
+    {name:"Alex",bio:"Design et idées",following:false},
+    {name:"Sam",bio:"Musique",following:false}
+  ],
+  notifications:[]
+};
 
-const STORAGE_KEY = "humanity_one_creations_v1";
-const PROFILE_KEY = "humanity_one_profile_v1";
-
-const demoCreations = [
-  {
-    id:"demo-1",
-    title:"La planète de demain",
-    author:"Nova",
-    category:"nature",
-    emoji:"🌍",
-    description:"Un futur où les villes et la nature vivent en harmonie.",
-    likes:28,
-    liked:false,
-    date:Date.now()-300000
-  },
-  {
-    id:"demo-2",
-    title:"Une nouvelle galaxie",
-    author:"Orion",
-    category:"future",
-    emoji:"🪐",
-    description:"Un voyage imaginaire vers une civilisation inconnue.",
-    likes:42,
-    liked:false,
-    date:Date.now()-600000
-  },
-  {
-    id:"demo-3",
-    title:"L'intelligence créative",
-    author:"Pixel",
-    category:"tech",
-    emoji:"🤖",
-    description:"La technologie au service de la créativité humaine.",
-    likes:16,
-    liked:false,
-    date:Date.now()-900000
-  }
-];
-
-let creations = loadCreations();
-let profile = loadProfile();
-let activeRemixId = null;
-
-/* -------------------------------------------------------
-   2. OUTILS GÉNÉRAUX
-------------------------------------------------------- */
-
-function makeId() {
-  return "creation-" + Date.now() + "-" +
-    Math.random().toString(36).slice(2,9);
+let data;
+try {
+  data=JSON.parse(localStorage.getItem(KEY)) || initialData;
+} catch(e) {
+  data=initialData;
 }
 
-function escapeHTML(value) {
-  return String(value).replace(/[&<>"']/g, function(char) {
-    const entities = {
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#039;"
-    };
-    return entities[char];
-  });
+function save() {
+  localStorage.setItem(KEY,JSON.stringify(data));
 }
 
-function loadCreations() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return [...demoCreations];
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return [...demoCreations];
-    return parsed;
-  } catch(error) {
-    console.error("Chargement des créations impossible",error);
-    return [...demoCreations];
-  }
+function escapeHTML(value="") {
+  return String(value).replace(/[&<>"']/g,char=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[char]));
 }
 
-function saveCreations() {
-  try {
-    localStorage.setItem(STORAGE_KEY,JSON.stringify(creations));
-    return true;
-  } catch(error) {
-    alert("Impossible de sauvegarder. Vérifie l'espace disponible.");
-    console.error(error);
-    return false;
-  }
+function postCard(post) {
+  const icons={
+    Art:"🎨",Photo:"📷",Texte:"✍️",
+    Musique:"🎵",Design:"💡",Vidéo:"🎬",Autre:"✨"
+  };
+
+  return `
+  <article class="card">
+    <div class="art">
+      ${post.image
+        ? `<img src="${post.image}" alt="">`
+        : `<span>${icons[post.category] || "✨"}</span>`}
+    </div>
+    <div class="cardbody">
+      <h3>${escapeHTML(post.title)}</h3>
+      <p>${escapeHTML(post.body.slice(0,110))}</p>
+      <div class="meta">
+        <span>${escapeHTML(post.author)}</span>
+        <span>${post.likes} ♥</span>
+      </div>
+      <div class="actions">
+        <button class="smallbtn ${post.liked?"liked":""}" data-like="${post.id}">
+          ♥ ${post.likes}
+        </button>
+        <button class="smallbtn" data-detail="${post.id}">Ouvrir</button>
+        <button class="smallbtn" data-remix="${post.id}">Remixer</button>
+      </div>
+    </div>
+  </article>`;
 }
 
-function loadProfile() {
-  try {
-    return JSON.parse(localStorage.getItem(PROFILE_KEY)) || {name:"Créateur"};
-  } catch(error) {
-    return {name:"Créateur"};
-  }
+function render() {
+  const own=data.posts.filter(p=>p.author===data.profile.name);
+
+  document.querySelector("#feed").innerHTML =
+    [...data.posts].sort((a,b)=>b.created-a.created).map(postCard).join("")
+    || `<div class="empty">Aucune création.</div>`;
+
+  const q=document.querySelector("#searchInput").value.toLowerCase();
+  const cat=document.querySelector("#categoryFilter").value;
+  const sort=document.querySelector("#sortFilter").value;
+
+  let results=data.posts.filter(p=>
+    (!cat || p.category===cat) &&
+    [p.title,p.body,p.author,...p.tags].join(" ").toLowerCase().includes(q)
+  );
+
+  if(sort==="popular") results.sort((a,b)=>b.likes-a.likes);
+  if(sort==="title") results.sort((a,b)=>a.title.localeCompare(b.title));
+  if(sort==="recent") results.sort((a,b)=>b.created-a.created);
+
+  document.querySelector("#exploreGrid").innerHTML =
+    results.map(postCard).join("") ||
+    `<div class="empty">Aucun résultat.</div>`;
+
+  document.querySelector("#folderInput").innerHTML =
+    data.folders.map(f=>`<option value="${f.id}">${escapeHTML(f.name)}</option>`).join("");
+
+  document.querySelector("#folders").innerHTML =
+    data.folders.map(f=>`
+      <div class="folder">
+        <span>📁</span>
+        <div class="grow">
+          <strong>${escapeHTML(f.name)}</strong>
+        </div>
+        <button class="smallbtn" data-openfolder="${f.id}">Ouvrir</button>
+        <button class="smallbtn" data-renamefolder="${f.id}">Renommer</button>
+        <button class="smallbtn" data-deletefolder="${f.id}">Supprimer</button>
+      </div>
+    `).join("");
+
+  document.querySelector("#libraryGrid").innerHTML=own.map(postCard).join("");
+  document.querySelector("#profileGrid").innerHTML=own.map(postCard).join("");
+
+  document.querySelector("#profileName").textContent=data.profile.name;
+  document.querySelector("#profileBio").textContent=data.profile.bio;
+  document.querySelector("#avatar").textContent=data.profile.name[0] || "P";
+  document.querySelector("#statPosts").textContent=own.length;
+  document.querySelector("#statLikes").textContent=own.reduce((n,p)=>n+p.likes,0);
+  document.querySelector("#statFollowing").textContent=data.people.filter(p=>p.following).length;
+
+  document.querySelector("#people").innerHTML=data.people.map(p=>`
+    <div class="folder">
+      <div class="grow">
+        <strong>${escapeHTML(p.name)}</strong>
+        <small class="muted">${escapeHTML(p.bio)}</small>
+      </div>
+      <button class="smallbtn" data-follow="${escapeHTML(p.name)}">
+        ${p.following?"Abonné ✓":"Suivre"}
+      </button>
+    </div>
+  `).join("");
+
+  document.querySelector("#notifications").innerHTML=
+    data.notifications.map(n=>`<div class="panel">${escapeHTML(n.text)}</div>`).join("")
+    || `<div class="empty">Aucune notification.</div>`;
+
+  save();
 }
 
-function saveProfileData() {
-  localStorage.setItem(PROFILE_KEY,JSON.stringify(profile));
-}
-
-function findCreation(id) {
-  return creations.find(item => item.id === id);
-}
-
-/* -------------------------------------------------------
-   3. NAVIGATION
-------------------------------------------------------- */
-
-function showPage(pageName) {
-  document.querySelectorAll(".page").forEach(page => {
-    page.hidden = page.id !== pageName;
-  });
-
-  document.querySelectorAll(".nav-button").forEach(button => {
-    button.classList.toggle(
-      "active",
-      button.dataset.page === pageName
-    );
-  });
-
-  if(pageName === "explore") renderExplore();
-  if(pageName === "home") renderHome();
-  if(pageName === "profile") renderProfile();
+function go(view) {
+  document.querySelectorAll(".view").forEach(v=>
+    v.classList.toggle("active",v.id===view)
+  );
+  document.querySelectorAll(".tab").forEach(b=>
+    b.classList.toggle("active",b.dataset.view===view)
+  );
+  render();
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
-document.querySelectorAll("[data-page]").forEach(button => {
-  button.addEventListener("click",() => showPage(button.dataset.page));
-});
+document.addEventListener("click",event=>{
+  const button=event.target.closest("button");
+  if(!button) return;
 
-document.querySelectorAll("[data-go]").forEach(button => {
-  button.addEventListener("click",() => showPage(button.dataset.go));
-});
-
-/* -------------------------------------------------------
-   4. AFFICHAGE DES CARTES
-------------------------------------------------------- */
-
-function creationCard(item) {
-  const safeId = escapeHTML(item.id);
-  const safeTitle = escapeHTML(item.title);
-  const safeAuthor = escapeHTML(item.author);
-  const safeDescription = escapeHTML(item.description);
-  const safeEmoji = escapeHTML(item.emoji);
-  const heart = item.liked ? "❤️" : "🤍";
-
-  return `
-    <article class="card" data-id="${safeId}">
-      <div class="art">${safeEmoji}</div>
-      <div class="card-content">
-        <h3>${safeTitle}</h3>
-        <p>${safeDescription}</p>
-        <p class="notice">Par ${safeAuthor} · ${item.likes} j'aime</p>
-        <div class="card-actions">
-          <button class="small-button" data-action="like"
-            data-id="${safeId}">${heart} ${item.likes}</button>
-          <button class="small-button" data-action="remix"
-            data-id="${safeId}">🔁 Remix</button>
-          <button class="small-button" data-action="edit"
-            data-id="${safeId}">Modifier</button>
-          <button class="small-button" data-action="delete"
-            data-id="${safeId}">Supprimer</button>
-        </div>
-      </div>
-    </article>`;
-}
-
-function renderHome() {
-  const target = document.getElementById("home-creations");
-  const latest = [...creations]
-    .sort((a,b) => b.date-a.date)
-    .slice(0,3);
-
-  target.innerHTML = latest.length
-    ? latest.map(creationCard).join("")
-    : '<div class="empty">Aucune création pour le moment.</div>';
-}
-
-function renderExplore() {
-  const target = document.getElementById("explore-creations");
-  const query = normalize(document.getElementById("search").value);
-  const category = document.getElementById("category-filter").value;
-  const sorting = document.getElementById("sort-filter").value;
-
-  let results = creations.filter(item => {
-    const searchable = normalize(
-      item.title+" "+item.author+" "+item.description
-    );
-    const matchesText = searchable.includes(query);
-    const matchesCategory =
-      category === "all" || item.category === category;
-    return matchesText && matchesCategory;
-  });
-
-  if(sorting === "popular") {
-    results.sort((a,b) => b.likes-a.likes);
-  } else if(sorting === "title") {
-    results.sort((a,b) => a.title.localeCompare(b.title,"fr"));
-  } else {
-    results.sort((a,b) => b.date-a.date);
-  }
-
-  target.innerHTML = results.length
-    ? results.map(creationCard).join("")
-    : '<div class="empty">Aucun résultat. Essaie une autre recherche.</div>';
-}
-
-function normalize(value) {
-  return String(value)
-    .toLocaleLowerCase("fr")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g,"")
-    .trim();
-}
-
-/* -------------------------------------------------------
-   5. RECHERCHE ET FILTRES
-------------------------------------------------------- */
-
-document.getElementById("search").addEventListener("input",renderExplore);
-document.getElementById("category-filter")
-  .addEventListener("change",renderExplore);
-document.getElementById("sort-filter")
-  .addEventListener("change",renderExplore);
-
-/* -------------------------------------------------------
-   6. CRÉATION ET MODIFICATION
-------------------------------------------------------- */
-
-const creationForm = document.getElementById("creation-form");
-
-creationForm.addEventListener("submit",event => {
-  event.preventDefault();
-
-  const id = document.getElementById("edit-id").value;
-  const title = document.getElementById("creation-title").value.trim();
-  const author = document.getElementById("creation-author").value.trim();
-  const category = document.getElementById("creation-category").value;
-  const emoji = document.getElementById("creation-emoji").value;
-  const description =
-    document.getElementById("creation-description").value.trim();
-
-  if(!title || !author || !description) {
-    alert("Remplis tous les champs obligatoires.");
+  if(button.dataset.go) {
+    go(button.dataset.go);
     return;
   }
 
-  if(id) {
-    const existing = findCreation(id);
-    if(!existing) {
-      alert("Cette création n'existe plus.");
-      resetForm();
+  if(button.dataset.view) {
+    go(button.dataset.view);
+    return;
+  }
+
+  if(button.dataset.close) {
+    document.getElementById(button.dataset.close).close();
+    return;
+  }
+
+  if(button.dataset.like) {
+    const post=data.posts.find(p=>p.id===button.dataset.like);
+    if(post) {
+      post.liked=!post.liked;
+      post.likes=Math.max(0,post.likes+(post.liked?1:-1));
+      render();
+    }
+    return;
+  }
+
+  if(button.dataset.detail) {
+    showDetail(button.dataset.detail);
+    return;
+  }
+
+  if(button.dataset.remix) {
+    const post=data.posts.find(p=>p.id===button.dataset.remix);
+    if(post) {
+      go("studio");
+      document.querySelector("#titleInput").value="Remix — "+post.title;
+      document.querySelector("#bodyInput").value=
+        "Remix de "+post.title+" par "+post.author+"\n\n"+post.body+
+        "\n\nMa nouvelle interprétation :";
+      document.querySelector("#categoryInput").value=post.category;
+      document.querySelector("#createForm").dataset.parent=post.id;
+    }
+    return;
+  }
+
+  if(button.id==="newFolderBtn") {
+    openGeneric("Nouvelle collection",`
+      <div class="field">
+        <label>Nom de la collection</label>
+        <input id="folderName">
+      </div>
+      <button class="primary" id="saveFolder">Créer</button>
+    `);
+    return;
+  }
+
+  if(button.dataset.openfolder) {
+    const id=button.dataset.openfolder;
+    const posts=data.posts.filter(p=>
+      p.folder===id && p.author===data.profile.name
+    );
+    document.querySelector("#folderItemsTitle").textContent=
+      data.folders.find(f=>f.id===id)?.name || "Collection";
+    document.querySelector("#libraryGrid").innerHTML=
+      posts.map(postCard).join("") || `<div class="empty">Collection vide.</div>`;
+    return;
+  }
+
+  if(button.dataset.renamefolder) {
+    const folder=data.folders.find(f=>f.id===button.dataset.renamefolder);
+    openGeneric("Renommer",`
+      <input id="folderName" value="${escapeHTML(folder.name)}">
+      <button class="primary" id="saveRename">Enregistrer</button>
+    `);
+    document.querySelector("#saveRename").onclick=()=>{
+      const name=document.querySelector("#folderName").value.trim();
+      if(name) folder.name=name;
+      render();
+      document.querySelector("#genericDialog").close();
+    };
+    return;
+  }
+
+  if(button.dataset.deletefolder) {
+    const id=button.dataset.deletefolder;
+    if(confirm("Supprimer cette collection ?")) {
+      data.posts.forEach(p=>{if(p.folder===id)p.folder="ideas";});
+      data.folders=data.folders.filter(f=>f.id!==id);
+      render();
+    }
+    return;
+  }
+
+  if(button.dataset.follow) {
+    const person=data.people.find(p=>p.name===button.dataset.follow);
+    person.following=!person.following;
+    data.notifications.unshift({
+      text:(person.following?"Tu suis maintenant ":"Tu ne suis plus ")+person.name
+    });
+    render();
+    return;
+  }
+
+  if(button.id==="saveFolder") {
+    const name=document.querySelector("#folderName").value.trim();
+    if(name) {
+      data.folders.push({id:uid(),name});
+      render();
+      document.querySelector("#genericDialog").close();
+    }
+    return;
+  }
+
+  if(button.id==="editProfileBtn") {
+    openGeneric("Modifier mon profil",`
+      <div class="field">
+        <label>Nom</label>
+        <input id="profileNameInput" value="${escapeHTML(data.profile.name)}">
+      </div>
+      <div class="field">
+        <label>Présentation</label>
+        <textarea id="profileBioInput">${escapeHTML(data.profile.bio)}</textarea>
+      </div>
+      <button class="primary" id="saveProfile">Enregistrer</button>
+    `);
+    document.querySelector("#saveProfile").onclick=()=>{
+      const name=document.querySelector("#profileNameInput").value.trim();
+      if(name) data.profile.name=name;
+      data.profile.bio=document.querySelector("#profileBioInput").value;
+      render();
+      document.querySelector("#genericDialog").close();
+    };
+  }
+});
+
+function openGeneric(title,html) {
+  document.querySelector("#genericTitle").textContent=title;
+  document.querySelector("#genericContent").innerHTML=html;
+  document.querySelector("#genericDialog").showModal();
+}
+
+function showDetail(id) {
+  const post=data.posts.find(p=>p.id===id);
+  if(!post) return;
+
+  document.querySelector("#detailTitle").textContent=post.title;
+  document.querySelector("#detailContent").innerHTML=`
+    ${post.image?`<img src="${post.image}" style="width:100%">`:""}
+    <p>${escapeHTML(post.body)}</p>
+    <p class="muted">Par ${escapeHTML(post.author)}</p>
+    <h3>Commentaires</h3>
+    <div id="commentList">
+      ${post.comments.map(c=>`<p><b>${escapeHTML(c.by)} :</b> ${escapeHTML(c.text)}</p>`).join("")}
+    </div>
+    <textarea id="commentText" placeholder="Écrire un commentaire"></textarea>
+    <button class="primary" id="sendComment">Commenter</button>
+    <button class="secondary" id="movePost">Déplacer</button>
+    <button class="secondary" id="deletePost">Supprimer</button>
+  `;
+
+  document.querySelector("#detailDialog").showModal();
+
+  document.querySelector("#sendComment").onclick=()=>{
+    const text=document.querySelector("#commentText").value.trim();
+    if(text) {
+      post.comments.push({by:data.profile.name,text});
+      render();
+      showDetail(id);
+    }
+  };
+
+  document.querySelector("#movePost").onclick=()=>{
+    openGeneric("Déplacer la création",`
+      <select id="moveFolder">
+        ${data.folders.map(f=>`<option value="${f.id}">${escapeHTML(f.name)}</option>`).join("")}
+      </select>
+      <button class="primary" id="confirmMove">Déplacer</button>
+    `);
+    document.querySelector("#confirmMove").onclick=()=>{
+      post.folder=document.querySelector("#moveFolder").value;
+      render();
+      document.querySelector("#genericDialog").close();
+      document.querySelector("#detailDialog").close();
+    };
+  };
+
+  document.querySelector("#deletePost").onclick=()=>{
+    if(confirm("Supprimer cette création ?")) {
+      data.posts=data.posts.filter(p=>p.id!==id);
+      render();
+      document.querySelector("#detailDialog").close();
+    }
+  };
+}
+
+document.querySelector("#createForm").addEventListener("submit",async event=>{
+  event.preventDefault();
+
+  const file=document.querySelector("#imageInput").files[0];
+  let image="";
+
+  if(file) {
+    if(file.size>1500000) {
+      alert("Image trop lourde : maximum 1,5 Mo.");
       return;
     }
-    existing.title = title;
-    existing.author = author;
-    existing.category = category;
-    existing.emoji = emoji;
-    existing.description = description;
-  } else {
-    creations.unshift({
-      id:makeId(),
-      title,
-      author,
-      category,
-      emoji,
-      description,
-      likes:0,
-      liked:false,
-      date:Date.now()
+    image=await new Promise(resolve=>{
+      const reader=new FileReader();
+      reader.onload=()=>resolve(reader.result);
+      reader.readAsDataURL(file);
     });
   }
 
-  if(saveCreations()) {
-    resetForm();
-    renderAll();
-    showPage("explore");
-  }
-});
+  const parent=event.currentTarget.dataset.parent || null;
 
-function editCreation(id) {
-  const item = findCreation(id);
-  if(!item) return;
-
-  document.getElementById("edit-id").value = item.id;
-  document.getElementById("creation-title").value = item.title;
-  document.getElementById("creation-author").value = item.author;
-  document.getElementById("creation-category").value = item.category;
-  document.getElementById("creation-emoji").value = item.emoji;
-  document.getElementById("creation-description").value = item.description;
-  document.getElementById("editor-title").textContent = "Modifier une œuvre";
-  showPage("create");
-}
-
-function resetForm() {
-  creationForm.reset();
-  document.getElementById("edit-id").value = "";
-  document.getElementById("editor-title").textContent = "Créer une œuvre";
-}
-
-document.getElementById("cancel-edit").addEventListener("click",resetForm);
-
-/* -------------------------------------------------------
-   7. LIKES, SUPPRESSION ET REMIX
-------------------------------------------------------- */
-
-function toggleLike(id) {
-  const item = findCreation(id);
-  if(!item) return;
-
-  item.liked = !item.liked;
-  item.likes = Math.max(0,item.likes + (item.liked ? 1 : -1));
-  saveCreations();
-  renderAll();
-}
-
-function deleteCreation(id) {
-  const item = findCreation(id);
-  if(!item) return;
-
-  if(!confirm("Supprimer « "+item.title+" » ?")) return;
-
-  creations = creations.filter(entry => entry.id !== id);
-  saveCreations();
-  renderAll();
-}
-
-function openRemix(id) {
-  const item = findCreation(id);
-  if(!item) return;
-
-  activeRemixId = id;
-  document.getElementById("modal-description").textContent =
-    "Tu vas créer une nouvelle version de : "+item.title;
-  document.getElementById("modal").classList.add("open");
-}
-
-function confirmRemix() {
-  const original = findCreation(activeRemixId);
-  if(!original) {
-    closeModal();
-    return;
-  }
-
-  document.getElementById("creation-title").value =
-    "Remix de "+original.title;
-  document.getElementById("creation-author").value = profile.name;
-  document.getElementById("creation-category").value = original.category;
-  document.getElementById("creation-emoji").value = original.emoji;
-  document.getElementById("creation-description").value =
-    "Inspiré de "+original.author+" : "+original.description;
-  document.getElementById("edit-id").value = "";
-  closeModal();
-  showPage("create");
-}
-
-function closeModal() {
-  document.getElementById("modal").classList.remove("open");
-  activeRemixId = null;
-}
-
-document.getElementById("close-modal")
-  .addEventListener("click",closeModal);
-document.getElementById("confirm-remix")
-  .addEventListener("click",confirmRemix);
-
-document.getElementById("modal").addEventListener("click",event => {
-  if(event.target.id === "modal") closeModal();
-});
-
-/* -------------------------------------------------------
-   8. ACTIONS DES CARTES
-------------------------------------------------------- */
-
-document.addEventListener("click",event => {
-  const button = event.target.closest("[data-action]");
-  if(!button) return;
-
-  const action = button.dataset.action;
-  const id = button.dataset.id;
-
-  if(action === "like") toggleLike(id);
-  if(action === "remix") openRemix(id);
-  if(action === "edit") editCreation(id);
-  if(action === "delete") deleteCreation(id);
-});
-
-/* -------------------------------------------------------
-   9. DÉFIS
-------------------------------------------------------- */
-
-document.querySelectorAll(".challenge-button").forEach(button => {
-  button.addEventListener("click",() => {
-    const challenge = button.dataset.challenge;
-    resetForm();
-    document.getElementById("creation-title").value = challenge;
-    document.getElementById("creation-author").value = profile.name;
-    document.getElementById("creation-description").value =
-      "Ma réponse au défi : "+challenge+". ";
-    showPage("create");
-  });
-});
-
-/* -------------------------------------------------------
-   10. PROFIL
-------------------------------------------------------- */
-
-function renderProfile() {
-  document.getElementById("profile-name").value = profile.name || "";
-  const own = creations.filter(item =>
-    normalize(item.author) === normalize(profile.name)
-  );
-  const likes = own.reduce((sum,item) => sum+item.likes,0);
-
-  document.getElementById("profile-stats").textContent =
-    own.length+" création(s) · "+likes+" j'aime reçus";
-}
-
-document.getElementById("save-profile").addEventListener("click",() => {
-  const name = document.getElementById("profile-name").value.trim();
-
-  if(!name) {
-    alert("Choisis un pseudo.");
-    return;
-  }
-
-  profile.name = name;
-  saveProfileData();
-  renderProfile();
-  alert("Profil enregistré sur cet appareil.");
-});
-
-/* -------------------------------------------------------
-   11. EXPORT ET IMPORT JSON
-------------------------------------------------------- */
-
-function downloadFile(content,type,filename) {
-  const blob = new Blob([content],{type});
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  link.remove();
-  setTimeout(() => URL.revokeObjectURL(url),1000);
-}
-
-document.getElementById("export-data").addEventListener("click",() => {
-  const backup = {
-    version:1,
-    exportedAt:new Date().toISOString(),
-    profile,
-    creations
+  const post={
+    id:uid(),
+    title:document.querySelector("#titleInput").value.trim(),
+    body:document.querySelector("#bodyInput").value.trim(),
+    category:document.querySelector("#categoryInput").value,
+    tags:document.querySelector("#tagsInput").value.split(",").map(t=>t.trim()).filter(Boolean),
+    author:data.profile.name,
+    folder:document.querySelector("#folderInput").value,
+    likes:0,
+    liked:false,
+    comments:[],
+    created:Date.now(),
+    image,
+    parent
   };
 
-  downloadFile(
-    JSON.stringify(backup,null,2),
-    "application/json",
-    "humanity-one-backup.json"
-  );
+  data.posts.unshift(post);
+  data.notifications.unshift({text:"Ta création a été publiée."});
+
+  event.currentTarget.reset();
+  delete event.currentTarget.dataset.parent;
+  go("home");
 });
 
-document.getElementById("import-data").addEventListener("change",async event => {
-  const file = event.target.files[0];
+["searchInput","categoryFilter","sortFilter"].forEach(id=>{
+  document.querySelector("#"+id).addEventListener("input",render);
+});
+
+document.querySelector("#exportBtn").onclick=()=>{
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const link=document.createElement("a");
+  link.href=URL.createObjectURL(blob);
+  link.download="humanity-one-backup.json";
+  link.click();
+  URL.revokeObjectURL(link.href);
+};
+
+document.querySelector("#importBtn").onclick=()=>{
+  document.querySelector("#importFile").click();
+};
+
+document.querySelector("#importFile").onchange=async event=>{
+  const file=event.target.files[0];
   if(!file) return;
-
   try {
-    const content = await file.text();
-    const data = JSON.parse(content);
-
-    if(!data || !Array.isArray(data.creations)) {
-      throw new Error("Format de sauvegarde invalide");
-    }
-
-    if(!confirm("Remplacer les données actuelles par cette sauvegarde ?")) {
-      event.target.value = "";
-      return;
-    }
-
-    creations = data.creations;
-    profile = data.profile || {name:"Créateur"};
-    saveCreations();
-    saveProfileData();
-    renderAll();
+    const imported=JSON.parse(await file.text());
+    if(!imported.profile || !Array.isArray(imported.posts) ||
+       !Array.isArray(imported.folders)) throw new Error();
+    data=imported;
+    render();
     alert("Sauvegarde importée.");
-  } catch(error) {
-    alert("Impossible d'importer ce fichier JSON.");
-    console.error(error);
+  } catch(e) {
+    alert("Fichier de sauvegarde invalide.");
   }
+};
 
-  event.target.value = "";
-});
-
-/* -------------------------------------------------------
-   12. EFFACEMENT DES DONNÉES
-------------------------------------------------------- */
-
-document.getElementById("reset-data").addEventListener("click",() => {
-  if(!confirm("Effacer toutes les créations et le profil de cet appareil ?")) {
-    return;
-  }
-
-  creations = [...demoCreations];
-  profile = {name:"Créateur"};
-  saveCreations();
-  saveProfileData();
-  resetForm();
-  renderAll();
-  showPage("home");
-});
-
-/* -------------------------------------------------------
-   13. MISE À JOUR GÉNÉRALE
-------------------------------------------------------- */
-
-function renderAll() {
-  renderHome();
-  renderExplore();
-  renderProfile();
-}
-
-/* -------------------------------------------------------
-   14. DÉMARRAGE
-------------------------------------------------------- */
-
-function initializeApp() {
-  renderAll();
-  showPage("home");
-}
-
-initializeApp();
+render();
 </script>
 </body>
 </html>
