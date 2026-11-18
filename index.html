@@ -1,0 +1,988 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080b18">
+<title>HUMANITY ONE</title>
+<style>
+:root {
+  --bg:#080b18;
+  --panel:#11182b;
+  --panel2:#18213a;
+  --text:#f5f7ff;
+  --muted:#9aa6c4;
+  --accent:#8b5cf6;
+  --cyan:#22d3ee;
+  --pink:#ec4899;
+  --border:rgba(255,255,255,.1);
+  --radius:18px;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 10% 0%,#30205c 0,transparent 35%),
+    radial-gradient(circle at 90% 20%,#123c59 0,transparent 30%),
+    var(--bg);
+  font-family:Arial,Helvetica,sans-serif;
+}
+button,input,textarea,select { font:inherit; }
+button { cursor:pointer; }
+button:focus-visible,input:focus-visible,textarea:focus-visible {
+  outline:2px solid var(--cyan);
+  outline-offset:3px;
+}
+header {
+  position:sticky;
+  top:0;
+  z-index:10;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:14px 5%;
+  background:rgba(8,11,24,.9);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(18px);
+}
+.logo {
+  font-size:22px;
+  font-weight:900;
+  letter-spacing:2px;
+  background:linear-gradient(90deg,var(--cyan),#c084fc);
+  color:transparent;
+  background-clip:text;
+}
+nav {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.nav-button,.secondary {
+  border:1px solid var(--border);
+  color:var(--text);
+  background:var(--panel);
+  border-radius:12px;
+  padding:10px 13px;
+}
+.nav-button.active {
+  background:var(--accent);
+  border-color:var(--accent);
+}
+main {
+  width:min(1100px,92%);
+  margin:30px auto 90px;
+}
+.hero {
+  padding:55px 25px;
+  text-align:center;
+  border:1px solid var(--border);
+  border-radius:28px;
+  background:linear-gradient(135deg,rgba(139,92,246,.22),rgba(34,211,238,.08));
+}
+.hero h1 {
+  font-size:clamp(36px,8vw,72px);
+  line-height:1;
+  margin:0 0 18px;
+}
+.gradient {
+  background:linear-gradient(90deg,var(--cyan),#c084fc,var(--pink));
+  color:transparent;
+  background-clip:text;
+}
+.hero p {
+  color:var(--muted);
+  max-width:650px;
+  margin:0 auto 25px;
+  line-height:1.7;
+}
+.primary {
+  border:0;
+  border-radius:13px;
+  padding:13px 19px;
+  color:white;
+  font-weight:700;
+  background:linear-gradient(100deg,var(--accent),#5268e8);
+}
+.primary:hover { filter:brightness(1.15); }
+.section { margin-top:35px; }
+.section-heading {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:17px;
+}
+.section-heading h2 { margin:0; }
+.toolbar {
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:18px 0;
+}
+input,textarea,select {
+  min-width:0;
+  color:var(--text);
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:12px;
+}
+input::placeholder,textarea::placeholder { color:var(--muted); }
+.search { flex:1; min-width:190px; }
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+  gap:17px;
+}
+.card {
+  overflow:hidden;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+}
+.art {
+  min-height:175px;
+  display:grid;
+  place-items:center;
+  font-size:62px;
+  background:linear-gradient(135deg,#39236b,#15516b);
+}
+.card-content { padding:15px; }
+.card h3 { margin:0 0 8px; }
+.card p {
+  color:var(--muted);
+  line-height:1.5;
+  overflow-wrap:anywhere;
+}
+.card-actions {
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  margin-top:13px;
+}
+.small-button {
+  color:var(--text);
+  background:var(--panel2);
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:8px 10px;
+}
+.small-button:hover { border-color:var(--cyan); }
+.empty {
+  text-align:center;
+  color:var(--muted);
+  padding:35px 15px;
+  border:1px dashed var(--border);
+  border-radius:15px;
+}
+.panel {
+  padding:20px;
+  border:1px solid var(--border);
+  background:var(--panel);
+  border-radius:var(--radius);
+}
+.form-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.form-grid .wide { grid-column:1/-1; }
+label {
+  display:grid;
+  gap:7px;
+  color:var(--muted);
+  font-size:14px;
+}
+textarea { min-height:100px; resize:vertical; }
+.modal {
+  position:fixed;
+  inset:0;
+  z-index:30;
+  display:none;
+  place-items:center;
+  padding:18px;
+  background:rgba(0,0,0,.75);
+}
+.modal.open { display:grid; }
+.modal-box {
+  width:min(540px,100%);
+  max-height:90vh;
+  overflow:auto;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:22px;
+}
+.modal-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.close {
+  border:0;
+  color:white;
+  background:transparent;
+  font-size:25px;
+}
+.notice {
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.5;
+}
+footer {
+  text-align:center;
+  color:var(--muted);
+  padding:25px;
+  border-top:1px solid var(--border);
+}
+[hidden] { display:none!important; }
+@media(max-width:600px) {
+  header { align-items:flex-start; flex-direction:column; }
+  nav { width:100%; }
+  .nav-button { flex:1; }
+  .hero { padding:40px 17px; }
+  .form-grid { grid-template-columns:1fr; }
+  .form-grid .wide { grid-column:auto; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">HUMANITY ONE</div>
+  <nav aria-label="Navigation principale">
+    <button class="nav-button active" data-page="home">Accueil</button>
+    <button class="nav-button" data-page="explore">Explorer</button>
+    <button class="nav-button" data-page="create">Créer</button>
+    <button class="nav-button" data-page="challenges">Défis</button>
+    <button class="nav-button" data-page="profile">Profil</button>
+  </nav>
+</header>
+
+<main>
+  <section id="home" class="page">
+    <div class="hero">
+      <h1>ONE WORLD.<br><span class="gradient">INFINITE IDEAS.</span></h1>
+      <p>
+        Imagine, crée et partage. Une plateforme créative
+        où chaque idée peut inspirer des milliers de personnes.
+      </p>
+      <button class="primary" data-go="create">Commencer à créer</button>
+    </div>
+    <section class="section">
+      <div class="section-heading">
+        <h2>À découvrir</h2>
+        <button class="secondary" data-go="explore">Tout explorer</button>
+      </div>
+      <div id="home-creations" class="grid"></div>
+    </section>
+  </section>
+
+  <section id="explore" class="page" hidden>
+    <div class="section-heading">
+      <h2>Explorer les créations</h2>
+    </div>
+    <div class="toolbar">
+      <input id="search" class="search" type="search"
+        placeholder="Rechercher une création..." aria-label="Rechercher">
+      <select id="category-filter" aria-label="Filtrer par catégorie">
+        <option value="all">Toutes les catégories</option>
+        <option value="art">Art</option>
+        <option value="tech">Technologie</option>
+        <option value="nature">Nature</option>
+        <option value="future">Futur</option>
+        <option value="other">Autre</option>
+      </select>
+      <select id="sort-filter" aria-label="Trier les créations">
+        <option value="recent">Plus récentes</option>
+        <option value="popular">Plus aimées</option>
+        <option value="title">Ordre alphabétique</option>
+      </select>
+    </div>
+    <div id="explore-creations" class="grid"></div>
+  </section>
+
+  <section id="create" class="page" hidden>
+    <div class="section-heading">
+      <h2 id="editor-title">Créer une œuvre</h2>
+    </div>
+    <div class="panel">
+      <form id="creation-form">
+        <input type="hidden" id="edit-id">
+        <div class="form-grid">
+          <label>
+            Titre
+            <input id="creation-title" maxlength="70" required
+              placeholder="Le titre de ton idée">
+          </label>
+          <label>
+            Ton nom
+            <input id="creation-author" maxlength="35" required
+              placeholder="Ton pseudo">
+          </label>
+          <label>
+            Catégorie
+            <select id="creation-category">
+              <option value="art">Art</option>
+              <option value="tech">Technologie</option>
+              <option value="nature">Nature</option>
+              <option value="future">Futur</option>
+              <option value="other">Autre</option>
+            </select>
+          </label>
+          <label>
+            Symbole
+            <select id="creation-emoji">
+              <option>🌌</option>
+              <option>🚀</option>
+              <option>🎨</option>
+              <option>🌍</option>
+              <option>🤖</option>
+              <option>🌱</option>
+              <option>💡</option>
+              <option>✨</option>
+              <option>🔥</option>
+              <option>🪐</option>
+            </select>
+          </label>
+          <label class="wide">
+            Description
+            <textarea id="creation-description" maxlength="500"
+              required placeholder="Raconte ton idée..."></textarea>
+          </label>
+        </div>
+        <div class="toolbar">
+          <button class="primary" type="submit">Enregistrer la création</button>
+          <button class="secondary" type="button" id="cancel-edit">Annuler</button>
+        </div>
+      </form>
+      <p class="notice">
+        Les créations sont sauvegardées dans le navigateur de cet appareil.
+      </p>
+    </div>
+  </section>
+
+  <section id="challenges" class="page" hidden>
+    <div class="section-heading"><h2>Défis créatifs</h2></div>
+    <div class="grid">
+      <article class="card">
+        <div class="art">🌍</div>
+        <div class="card-content">
+          <h3>Un monde meilleur</h3>
+          <p>Imagine une invention qui rendrait la planète plus belle.</p>
+          <button class="primary challenge-button" data-challenge="Un monde meilleur">
+            Relever le défi
+          </button>
+        </div>
+      </article>
+      <article class="card">
+        <div class="art">🚀</div>
+        <div class="card-content">
+          <h3>En 2126</h3>
+          <p>Montre à quoi pourrait ressembler la vie dans cent ans.</p>
+          <button class="primary challenge-button" data-challenge="En 2126">
+            Relever le défi
+          </button>
+        </div>
+      </article>
+      <article class="card">
+        <div class="art">💡</div>
+        <div class="card-content">
+          <h3>L'idée impossible</h3>
+          <p>Crée quelque chose qui semble irréalisable aujourd'hui.</p>
+          <button class="primary challenge-button" data-challenge="L'idée impossible">
+            Relever le défi
+          </button>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="profile" class="page" hidden>
+    <div class="section-heading"><h2>Mon profil</h2></div>
+    <div class="panel">
+      <label>
+        Pseudo public
+        <input id="profile-name" maxlength="35" placeholder="Ton pseudo">
+      </label>
+      <div class="toolbar">
+        <button id="save-profile" class="primary">Enregistrer le profil</button>
+      </div>
+      <p id="profile-stats" class="notice"></p>
+      <div class="toolbar">
+        <button id="export-data" class="secondary">Exporter mes données</button>
+        <label class="secondary">
+          Importer une sauvegarde
+          <input id="import-data" type="file" accept="application/json">
+        </label>
+      </div>
+      <button id="reset-data" class="small-button">Effacer mes données locales</button>
+    </div>
+  </section>
+</main>
+
+<div id="modal" class="modal" role="dialog" aria-modal="true"
+  aria-labelledby="modal-title">
+  <div class="modal-box">
+    <div class="modal-top">
+      <h2 id="modal-title">Remixer cette création</h2>
+      <button id="close-modal" class="close" aria-label="Fermer">×</button>
+    </div>
+    <p id="modal-description"></p>
+    <button id="confirm-remix" class="primary">Créer mon remix</button>
+  </div>
+</div>
+
+<footer>
+  HUMANITY ONE · Create together · Imagine without limits
+</footer>
+
+<script>
+"use strict";
+
+/* -------------------------------------------------------
+   1. DONNÉES ET CONFIGURATION
+------------------------------------------------------- */
+
+const STORAGE_KEY = "humanity_one_creations_v1";
+const PROFILE_KEY = "humanity_one_profile_v1";
+
+const demoCreations = [
+  {
+    id:"demo-1",
+    title:"La planète de demain",
+    author:"Nova",
+    category:"nature",
+    emoji:"🌍",
+    description:"Un futur où les villes et la nature vivent en harmonie.",
+    likes:28,
+    liked:false,
+    date:Date.now()-300000
+  },
+  {
+    id:"demo-2",
+    title:"Une nouvelle galaxie",
+    author:"Orion",
+    category:"future",
+    emoji:"🪐",
+    description:"Un voyage imaginaire vers une civilisation inconnue.",
+    likes:42,
+    liked:false,
+    date:Date.now()-600000
+  },
+  {
+    id:"demo-3",
+    title:"L'intelligence créative",
+    author:"Pixel",
+    category:"tech",
+    emoji:"🤖",
+    description:"La technologie au service de la créativité humaine.",
+    likes:16,
+    liked:false,
+    date:Date.now()-900000
+  }
+];
+
+let creations = loadCreations();
+let profile = loadProfile();
+let activeRemixId = null;
+
+/* -------------------------------------------------------
+   2. OUTILS GÉNÉRAUX
+------------------------------------------------------- */
+
+function makeId() {
+  return "creation-" + Date.now() + "-" +
+    Math.random().toString(36).slice(2,9);
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, function(char) {
+    const entities = {
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#039;"
+    };
+    return entities[char];
+  });
+}
+
+function loadCreations() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [...demoCreations];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [...demoCreations];
+    return parsed;
+  } catch(error) {
+    console.error("Chargement des créations impossible",error);
+    return [...demoCreations];
+  }
+}
+
+function saveCreations() {
+  try {
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(creations));
+    return true;
+  } catch(error) {
+    alert("Impossible de sauvegarder. Vérifie l'espace disponible.");
+    console.error(error);
+    return false;
+  }
+}
+
+function loadProfile() {
+  try {
+    return JSON.parse(localStorage.getItem(PROFILE_KEY)) || {name:"Créateur"};
+  } catch(error) {
+    return {name:"Créateur"};
+  }
+}
+
+function saveProfileData() {
+  localStorage.setItem(PROFILE_KEY,JSON.stringify(profile));
+}
+
+function findCreation(id) {
+  return creations.find(item => item.id === id);
+}
+
+/* -------------------------------------------------------
+   3. NAVIGATION
+------------------------------------------------------- */
+
+function showPage(pageName) {
+  document.querySelectorAll(".page").forEach(page => {
+    page.hidden = page.id !== pageName;
+  });
+
+  document.querySelectorAll(".nav-button").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.page === pageName
+    );
+  });
+
+  if(pageName === "explore") renderExplore();
+  if(pageName === "home") renderHome();
+  if(pageName === "profile") renderProfile();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+document.querySelectorAll("[data-page]").forEach(button => {
+  button.addEventListener("click",() => showPage(button.dataset.page));
+});
+
+document.querySelectorAll("[data-go]").forEach(button => {
+  button.addEventListener("click",() => showPage(button.dataset.go));
+});
+
+/* -------------------------------------------------------
+   4. AFFICHAGE DES CARTES
+------------------------------------------------------- */
+
+function creationCard(item) {
+  const safeId = escapeHTML(item.id);
+  const safeTitle = escapeHTML(item.title);
+  const safeAuthor = escapeHTML(item.author);
+  const safeDescription = escapeHTML(item.description);
+  const safeEmoji = escapeHTML(item.emoji);
+  const heart = item.liked ? "❤️" : "🤍";
+
+  return `
+    <article class="card" data-id="${safeId}">
+      <div class="art">${safeEmoji}</div>
+      <div class="card-content">
+        <h3>${safeTitle}</h3>
+        <p>${safeDescription}</p>
+        <p class="notice">Par ${safeAuthor} · ${item.likes} j'aime</p>
+        <div class="card-actions">
+          <button class="small-button" data-action="like"
+            data-id="${safeId}">${heart} ${item.likes}</button>
+          <button class="small-button" data-action="remix"
+            data-id="${safeId}">🔁 Remix</button>
+          <button class="small-button" data-action="edit"
+            data-id="${safeId}">Modifier</button>
+          <button class="small-button" data-action="delete"
+            data-id="${safeId}">Supprimer</button>
+        </div>
+      </div>
+    </article>`;
+}
+
+function renderHome() {
+  const target = document.getElementById("home-creations");
+  const latest = [...creations]
+    .sort((a,b) => b.date-a.date)
+    .slice(0,3);
+
+  target.innerHTML = latest.length
+    ? latest.map(creationCard).join("")
+    : '<div class="empty">Aucune création pour le moment.</div>';
+}
+
+function renderExplore() {
+  const target = document.getElementById("explore-creations");
+  const query = normalize(document.getElementById("search").value);
+  const category = document.getElementById("category-filter").value;
+  const sorting = document.getElementById("sort-filter").value;
+
+  let results = creations.filter(item => {
+    const searchable = normalize(
+      item.title+" "+item.author+" "+item.description
+    );
+    const matchesText = searchable.includes(query);
+    const matchesCategory =
+      category === "all" || item.category === category;
+    return matchesText && matchesCategory;
+  });
+
+  if(sorting === "popular") {
+    results.sort((a,b) => b.likes-a.likes);
+  } else if(sorting === "title") {
+    results.sort((a,b) => a.title.localeCompare(b.title,"fr"));
+  } else {
+    results.sort((a,b) => b.date-a.date);
+  }
+
+  target.innerHTML = results.length
+    ? results.map(creationCard).join("")
+    : '<div class="empty">Aucun résultat. Essaie une autre recherche.</div>';
+}
+
+function normalize(value) {
+  return String(value)
+    .toLocaleLowerCase("fr")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .trim();
+}
+
+/* -------------------------------------------------------
+   5. RECHERCHE ET FILTRES
+------------------------------------------------------- */
+
+document.getElementById("search").addEventListener("input",renderExplore);
+document.getElementById("category-filter")
+  .addEventListener("change",renderExplore);
+document.getElementById("sort-filter")
+  .addEventListener("change",renderExplore);
+
+/* -------------------------------------------------------
+   6. CRÉATION ET MODIFICATION
+------------------------------------------------------- */
+
+const creationForm = document.getElementById("creation-form");
+
+creationForm.addEventListener("submit",event => {
+  event.preventDefault();
+
+  const id = document.getElementById("edit-id").value;
+  const title = document.getElementById("creation-title").value.trim();
+  const author = document.getElementById("creation-author").value.trim();
+  const category = document.getElementById("creation-category").value;
+  const emoji = document.getElementById("creation-emoji").value;
+  const description =
+    document.getElementById("creation-description").value.trim();
+
+  if(!title || !author || !description) {
+    alert("Remplis tous les champs obligatoires.");
+    return;
+  }
+
+  if(id) {
+    const existing = findCreation(id);
+    if(!existing) {
+      alert("Cette création n'existe plus.");
+      resetForm();
+      return;
+    }
+    existing.title = title;
+    existing.author = author;
+    existing.category = category;
+    existing.emoji = emoji;
+    existing.description = description;
+  } else {
+    creations.unshift({
+      id:makeId(),
+      title,
+      author,
+      category,
+      emoji,
+      description,
+      likes:0,
+      liked:false,
+      date:Date.now()
+    });
+  }
+
+  if(saveCreations()) {
+    resetForm();
+    renderAll();
+    showPage("explore");
+  }
+});
+
+function editCreation(id) {
+  const item = findCreation(id);
+  if(!item) return;
+
+  document.getElementById("edit-id").value = item.id;
+  document.getElementById("creation-title").value = item.title;
+  document.getElementById("creation-author").value = item.author;
+  document.getElementById("creation-category").value = item.category;
+  document.getElementById("creation-emoji").value = item.emoji;
+  document.getElementById("creation-description").value = item.description;
+  document.getElementById("editor-title").textContent = "Modifier une œuvre";
+  showPage("create");
+}
+
+function resetForm() {
+  creationForm.reset();
+  document.getElementById("edit-id").value = "";
+  document.getElementById("editor-title").textContent = "Créer une œuvre";
+}
+
+document.getElementById("cancel-edit").addEventListener("click",resetForm);
+
+/* -------------------------------------------------------
+   7. LIKES, SUPPRESSION ET REMIX
+------------------------------------------------------- */
+
+function toggleLike(id) {
+  const item = findCreation(id);
+  if(!item) return;
+
+  item.liked = !item.liked;
+  item.likes = Math.max(0,item.likes + (item.liked ? 1 : -1));
+  saveCreations();
+  renderAll();
+}
+
+function deleteCreation(id) {
+  const item = findCreation(id);
+  if(!item) return;
+
+  if(!confirm("Supprimer « "+item.title+" » ?")) return;
+
+  creations = creations.filter(entry => entry.id !== id);
+  saveCreations();
+  renderAll();
+}
+
+function openRemix(id) {
+  const item = findCreation(id);
+  if(!item) return;
+
+  activeRemixId = id;
+  document.getElementById("modal-description").textContent =
+    "Tu vas créer une nouvelle version de : "+item.title;
+  document.getElementById("modal").classList.add("open");
+}
+
+function confirmRemix() {
+  const original = findCreation(activeRemixId);
+  if(!original) {
+    closeModal();
+    return;
+  }
+
+  document.getElementById("creation-title").value =
+    "Remix de "+original.title;
+  document.getElementById("creation-author").value = profile.name;
+  document.getElementById("creation-category").value = original.category;
+  document.getElementById("creation-emoji").value = original.emoji;
+  document.getElementById("creation-description").value =
+    "Inspiré de "+original.author+" : "+original.description;
+  document.getElementById("edit-id").value = "";
+  closeModal();
+  showPage("create");
+}
+
+function closeModal() {
+  document.getElementById("modal").classList.remove("open");
+  activeRemixId = null;
+}
+
+document.getElementById("close-modal")
+  .addEventListener("click",closeModal);
+document.getElementById("confirm-remix")
+  .addEventListener("click",confirmRemix);
+
+document.getElementById("modal").addEventListener("click",event => {
+  if(event.target.id === "modal") closeModal();
+});
+
+/* -------------------------------------------------------
+   8. ACTIONS DES CARTES
+------------------------------------------------------- */
+
+document.addEventListener("click",event => {
+  const button = event.target.closest("[data-action]");
+  if(!button) return;
+
+  const action = button.dataset.action;
+  const id = button.dataset.id;
+
+  if(action === "like") toggleLike(id);
+  if(action === "remix") openRemix(id);
+  if(action === "edit") editCreation(id);
+  if(action === "delete") deleteCreation(id);
+});
+
+/* -------------------------------------------------------
+   9. DÉFIS
+------------------------------------------------------- */
+
+document.querySelectorAll(".challenge-button").forEach(button => {
+  button.addEventListener("click",() => {
+    const challenge = button.dataset.challenge;
+    resetForm();
+    document.getElementById("creation-title").value = challenge;
+    document.getElementById("creation-author").value = profile.name;
+    document.getElementById("creation-description").value =
+      "Ma réponse au défi : "+challenge+". ";
+    showPage("create");
+  });
+});
+
+/* -------------------------------------------------------
+   10. PROFIL
+------------------------------------------------------- */
+
+function renderProfile() {
+  document.getElementById("profile-name").value = profile.name || "";
+  const own = creations.filter(item =>
+    normalize(item.author) === normalize(profile.name)
+  );
+  const likes = own.reduce((sum,item) => sum+item.likes,0);
+
+  document.getElementById("profile-stats").textContent =
+    own.length+" création(s) · "+likes+" j'aime reçus";
+}
+
+document.getElementById("save-profile").addEventListener("click",() => {
+  const name = document.getElementById("profile-name").value.trim();
+
+  if(!name) {
+    alert("Choisis un pseudo.");
+    return;
+  }
+
+  profile.name = name;
+  saveProfileData();
+  renderProfile();
+  alert("Profil enregistré sur cet appareil.");
+});
+
+/* -------------------------------------------------------
+   11. EXPORT ET IMPORT JSON
+------------------------------------------------------- */
+
+function downloadFile(content,type,filename) {
+  const blob = new Blob([content],{type});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url),1000);
+}
+
+document.getElementById("export-data").addEventListener("click",() => {
+  const backup = {
+    version:1,
+    exportedAt:new Date().toISOString(),
+    profile,
+    creations
+  };
+
+  downloadFile(
+    JSON.stringify(backup,null,2),
+    "application/json",
+    "humanity-one-backup.json"
+  );
+});
+
+document.getElementById("import-data").addEventListener("change",async event => {
+  const file = event.target.files[0];
+  if(!file) return;
+
+  try {
+    const content = await file.text();
+    const data = JSON.parse(content);
+
+    if(!data || !Array.isArray(data.creations)) {
+      throw new Error("Format de sauvegarde invalide");
+    }
+
+    if(!confirm("Remplacer les données actuelles par cette sauvegarde ?")) {
+      event.target.value = "";
+      return;
+    }
+
+    creations = data.creations;
+    profile = data.profile || {name:"Créateur"};
+    saveCreations();
+    saveProfileData();
+    renderAll();
+    alert("Sauvegarde importée.");
+  } catch(error) {
+    alert("Impossible d'importer ce fichier JSON.");
+    console.error(error);
+  }
+
+  event.target.value = "";
+});
+
+/* -------------------------------------------------------
+   12. EFFACEMENT DES DONNÉES
+------------------------------------------------------- */
+
+document.getElementById("reset-data").addEventListener("click",() => {
+  if(!confirm("Effacer toutes les créations et le profil de cet appareil ?")) {
+    return;
+  }
+
+  creations = [...demoCreations];
+  profile = {name:"Créateur"};
+  saveCreations();
+  saveProfileData();
+  resetForm();
+  renderAll();
+  showPage("home");
+});
+
+/* -------------------------------------------------------
+   13. MISE À JOUR GÉNÉRALE
+------------------------------------------------------- */
+
+function renderAll() {
+  renderHome();
+  renderExplore();
+  renderProfile();
+}
+
+/* -------------------------------------------------------
+   14. DÉMARRAGE
+------------------------------------------------------- */
+
+function initializeApp() {
+  renderAll();
+  showPage("home");
+}
+
+initializeApp();
+</script>
+</body>
+</html>
